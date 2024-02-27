@@ -1,0 +1,16 @@
+
+<div class="main-sidebar">
+    <aside id="sidebar-wrapper">
+        <div class="sidebar-brand">
+            <a href="{{ route('admin.dashboard.index') }}">Pemesanan</a>
+        </div>
+        <div class="sidebar-brand sidebar-brand-sm">
+            <a href="{{ route('admin.dashboard.index') }}">Psn</a>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="menu-header">Home</li>
+            <li class="@if (request()->routeIs('admin.dashboard.*')) active @endif"><a class="nav-link" href="{{ route('admin.dashboard.index') }}"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+            <li class="menu-header">Users</li>
+        </ul>
+    </aside>
+</div>
