@@ -45,15 +45,15 @@
                 <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
                 <div class="d-sm-none d-lg-inline-block">Hi, {{ auth()->user()->name }}</div>
             </a>
-{{--            <div class="dropdown-menu dropdown-menu-right">--}}
+            <div class="dropdown-menu dropdown-menu-right">
 {{--                <a href="{{ route('admin.biodatas.create') }}" class="dropdown-item has-icon">--}}
 {{--                    <i class="far fa-user"></i> Profile--}}
 {{--                </a>--}}
-{{--                <div class="dropdown-divider"></div>--}}
-{{--                <a href="{{ route('logout.store') }}" class="dropdown-item has-icon text-danger">--}}
-{{--                    <i class="fas fa-sign-out-alt"></i> Logout--}}
-{{--                </a>--}}
-{{--            </div>--}}
+                <div class="dropdown-divider"></div>
+                <a href="{{ route('auth.logout') }}" class="dropdown-item has-icon text-danger">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
         </li>
     </ul>
 </nav>

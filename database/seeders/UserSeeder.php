@@ -29,6 +29,7 @@ class UserSeeder extends Seeder
                 "name" => "Admin",
                 "email" => "admin@gmail.com",
                 "password" => 123456,
+                "email_verified_at" => now()->toDateTimeString(),
             ]);
             $user->userable()->associate($admin)->save();
         });
@@ -43,6 +44,7 @@ class UserSeeder extends Seeder
                     "name" => $name,
                     "email" => $email,
                     "password" => 123456,
+                    "email_verified_at" => now()->toDateTimeString(),
                 ]);
             });
         }
