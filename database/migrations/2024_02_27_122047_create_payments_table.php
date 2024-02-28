@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('transaction_id')->constrained('transactions')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('payment_proof_image');
             $table->string('payment_method'); // credit card, paypal, virtual account, bank_transfer, etc
             $table->string('payment_status'); // pending, success, failed
             $table->timestamps();

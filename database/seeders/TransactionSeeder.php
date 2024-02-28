@@ -14,6 +14,7 @@ use App\Models\User;
 use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 
 class TransactionSeeder extends Seeder
@@ -64,6 +65,7 @@ class TransactionSeeder extends Seeder
                     "payment_method" => PaymentMethodEnum::BANK_TRANSFER->value,
                     "payment_status" => PaymentStatusEnum::SUCCESS->value,
                 ]);
+                $payment->saveFile('payment_proof_image', UploadedFile::fake()->image('test.jpg', 500, 500), $payment->fullPath());
                 $payment->transaction()
                     ->associate($transaction)
                     ->save();

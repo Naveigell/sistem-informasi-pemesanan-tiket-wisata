@@ -2,16 +2,26 @@
 
 namespace App\Models;
 
+use App\Traits\CanSaveFile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    use HasFactory;
+    use HasFactory, CanSaveFile;
 
     protected $fillable = [
-        'transaction_id', 'payment_method', 'payment_status',
+        'transaction_id', 'payment_proof_image', 'payment_method', 'payment_status',
     ];
+
+    public function getPaymentProofImageUrlAttribute()
+    {
+        if (file_exists(storage_path("app/{$this->fullPath()}/{$this->payment_proof_image}"))) {
+            return asset("storage/payments/{$this->payment_proof_image}");
+        }
+
+        return "https://placehold.co/600x400";
+    }
 
     /**
      * Get the transaction associated with the transaction.
@@ -19,5 +29,15 @@ class Payment extends Model
     public function transaction()
     {
         return $this->belongsTo(Transaction::class);
+    }
+
+    /**
+     * Return the full path where the file will be saved
+     *
+     * @return string
+     */
+    public function fullPath()
+    {
+        return $this->options['root_folder'] . '/payments';
     }
 }
