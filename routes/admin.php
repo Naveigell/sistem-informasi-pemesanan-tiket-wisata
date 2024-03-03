@@ -7,3 +7,5 @@ Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class
 Route::resource('tickets', \App\Http\Controllers\Admin\TicketController::class)->except('show');
 Route::resource('transactions', \App\Http\Controllers\Admin\TransactionController::class)->except('show');
 
+Route::get('/validate-qr', fn() => 'works')->name('validate-qr');
+

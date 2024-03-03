@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\TransactionStatusEnum;
 use App\Traits\CanSaveFile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,50 +9,25 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use Ramsey\Uuid\Uuid;
 
-class Transaction extends Model
+class TransactionTicket extends Model
 {
     use HasFactory, CanSaveFile {
         saveFile as saveFileTrait;
     }
 
     protected $fillable = [
-        'user_id', 'transaction_id', 'ticket_id', 'customer_name', 'customer_email', 'customer_phone', 'customer_group',
-        'ticket_price', 'transaction_date', 'number_of_tickets', 'qr_code_image', 'transaction_status',
-    ];
-
-    protected $casts = [
-        'transaction_status' => TransactionStatusEnum::class,
+        'transaction_id', 'transaction_code', 'name', 'price', 'group', 'ticket_code', 'qr_code_image',
+        'transaction_date',
     ];
 
     /**
-     * Get the ticket associated with the ticket.
-     */
-    public function ticket()
-    {
-        return $this->belongsTo(Ticket::class);
-    }
-
-    /**
-     * Get the user that owns the user.
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the latest payment for the user.
+     * Get the transaction ticket associated with the transaction.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function latestPayment()
+    public function transaction()
     {
-        return $this->hasOne(Payment::class)->latest();
-    }
-
-    public function qrCodeImagePath()
-    {
-        return $this->fullPath() . '/qr_codes';
+        return $this->belongsTo(TransactionTicket::class);
     }
 
     /**
@@ -84,5 +58,14 @@ class Transaction extends Model
         }
     }
 
+    /**
+     * Get the QR code image path.
+     *
+     * @return string
+     */
+    public function qrCodeImagePath()
+    {
+        return $this->fullPath() . '/qr_codes';
+    }
 
 }
