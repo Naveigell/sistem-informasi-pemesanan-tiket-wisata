@@ -3,21 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\PaymentRequest;
+use App\Models\Payment;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
-class TransactionController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $transactions = Transaction::with('latestPayment')
-            ->latest('transaction_date')
-            ->paginate(10);
-
-        return view('admin.pages.transaction.index', compact('transactions'));
+        //
     }
 
     /**
@@ -39,7 +37,7 @@ class TransactionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Transaction $transaction)
+    public function show(Payment $payment)
     {
         //
     }
@@ -47,25 +45,27 @@ class TransactionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Transaction $transaction)
-    {
-        $transaction->load('transactionTickets', 'latestPayment');
-
-        return view('admin.pages.transaction.form', compact('transaction'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Transaction $transaction)
+    public function edit(Payment $payment)
     {
         //
     }
 
     /**
+     * Update the specified resource in storage.
+     */
+    public function update(PaymentRequest $request, Transaction $transaction, Payment $payment)
+    {
+        abort_if($transaction->id != $payment->transaction_id, 404);
+
+        $payment->update($request->validated());
+
+        return redirect(route('admin.transactions.edit', $transaction))->with('payment-success', 'Payment updated successfully');
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transaction $transaction)
+    public function destroy(Payment $payment)
     {
         //
     }

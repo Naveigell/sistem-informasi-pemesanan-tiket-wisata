@@ -26,19 +26,21 @@ class Transaction extends Model
     ];
 
     /**
-     * Get the ticket associated with the ticket.
-     */
-    public function ticket()
-    {
-        return $this->belongsTo(Ticket::class);
-    }
-
-    /**
      * Get the user that owns the user.
      */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Define a relationship with the TransactionTicket model
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transactionTickets()
+    {
+        return $this->hasMany(TransactionTicket::class);
     }
 
     /**
@@ -49,6 +51,15 @@ class Transaction extends Model
     public function latestPayment()
     {
         return $this->hasOne(Payment::class)->latest();
+    }
+
+    public function getQrCodeImageUrlAttribute()
+    {
+        if (file_exists(storage_path("app/{$this->qrCodeImagePath()}/{$this->qr_code_image}"))) {
+            return asset("storage/qr_codes/{$this->qr_code_image}");
+        }
+
+        return "https://placehold.co/600x400";
     }
 
     public function qrCodeImagePath()

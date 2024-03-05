@@ -15,10 +15,10 @@ class LoginController extends Controller
         if (auth()->attempt($request->only('email', 'password'))) {
 
             if (auth()->user()->isCustomer()) {
-                return redirect(route('customer.index'));
+                return redirect()->intended(route('customer.index'));
             }
 
-            return redirect(route('admin.dashboard.index'));
+            return redirect()->intended(route('admin.dashboard.index'));
         }
 
         // if credentials doesn't match, and just return email input

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TicketGroupEnum;
 use App\Traits\CanSaveFile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,10 @@ class TransactionTicket extends Model
         'transaction_date',
     ];
 
+    protected $casts = [
+        'group' => TicketGroupEnum::class,
+    ];
+
     /**
      * Get the transaction ticket associated with the transaction.
      *
@@ -28,6 +33,13 @@ class TransactionTicket extends Model
     public function transaction()
     {
         return $this->belongsTo(TransactionTicket::class);
+    }
+
+    public function getQrCodeImageUrlAttribute()
+    {
+        if (file_exists(storage_path("app/{$this->qrCodeImagePath()}/{$this->qr_code_image}"))) {
+            return asset("storage/qr_codes/{$this->qr_code_image}");
+        }
     }
 
     /**

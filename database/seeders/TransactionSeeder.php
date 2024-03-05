@@ -40,7 +40,6 @@ class TransactionSeeder extends Seeder
                  * @var User $customer
                  */
                 $group    = $groups->random();
-                $ticket   = $tickets->random();
                 $status   = $transactionStatuses->random();
                 $customer = $customers->random();
 
@@ -54,14 +53,12 @@ class TransactionSeeder extends Seeder
                     "customer_name"      => $faker->name,
                     "customer_email"     => $faker->email,
                     "customer_phone"     => $faker->numerify("+62#############"),
-                    "ticket_price"       => $ticket->price,
                     "transaction_code"   => $faker->uuid,
                     "transaction_date"   => $transactionDate,
                     "transaction_status" => $status->value,
                     "number_of_tickets"  => $transactionTickets->count(),
                 ]);
                 $transaction->saveFile('qr_code_image', QrCode::createQrCodeImage($this->constructUrl($transaction)), $transaction->qrCodeImagePath());
-                $transaction->ticket()->associate($ticket);
                 $transaction->user()->associate($customer);
                 $transaction->save();
 
