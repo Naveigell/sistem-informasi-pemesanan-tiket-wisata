@@ -23,7 +23,7 @@
     <ul>
         <li><a href="{{ route('home.index') }}" class="active">Home</a></li>
 
-        <li><a href="{{ route('ticket.index') }}">Pesan Tiket</a></li>
+        <li><a href="{{ route('tickets.index') }}">Pesan Tiket</a></li>
         <li><a href="{{ route('auth.login.index') }}">Login</a></li>
     </ul>
 </nav>

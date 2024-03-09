@@ -54,11 +54,11 @@ class TransactionSeeder extends Seeder
                     "customer_email"     => $faker->email,
                     "customer_phone"     => $faker->numerify("+62#############"),
                     "transaction_code"   => $faker->uuid,
-                    "transaction_date"   => $transactionDate,
+                    "booking_date"       => $transactionDate,
                     "transaction_status" => $status->value,
                     "number_of_tickets"  => $transactionTickets->count(),
                 ]);
-                $transaction->saveFile('qr_code_image', QrCode::createQrCodeImage($this->constructUrl($transaction)), $transaction->qrCodeImagePath());
+                $transaction->saveFile('qr_code_image', QrCode::createQrCodeImage($transaction->constructUrl()), $transaction->qrCodeImagePath());
                 $transaction->user()->associate($customer);
                 $transaction->save();
 
@@ -67,10 +67,9 @@ class TransactionSeeder extends Seeder
                 foreach ($transactionTickets as $item) {
                     $transactionTicket = new TransactionTicket(array_merge($item->only('name', 'price', 'group', 'ticket_code'), [
                         "transaction_code" => $faker->uuid,
-                        "transaction_date" => $transactionDate,
                     ]));
                     $transactionTicket->transaction()->associate($transaction);
-                    $transactionTicket->saveFile('qr_code_image', QrCode::createQrCodeImage($this->constructUrl($transactionTicket)), $transactionTicket->qrCodeImagePath());
+                    $transactionTicket->saveFile('qr_code_image', QrCode::createQrCodeImage($transactionTicket->constructUrl()), $transactionTicket->qrCodeImagePath());
                     $transactionTicket->save();
                 }
 
@@ -89,24 +88,5 @@ class TransactionSeeder extends Seeder
                     ->save();
             });
         }
-    }
-
-    /**
-     * Construct the URL for validating a QR code.
-     *
-     * @param Transaction|TransactionTicket $transaction The transaction object
-     * @return string The constructed URL
-     */
-    private function constructUrl($transaction)
-    {
-        // Generate token
-        $token = sha1(config('app.key') . $transaction->transaction_code . strtotime($transaction->transaction_date));
-
-        // Generate URL with token, code, and date parameters
-        return route('admin.validate-qr', [
-            "token"     => $token,
-            "code"      => $transaction->transaction_code,
-            "timestamp" => strtotime($transaction->transaction_date),
-        ]);
     }
 }

@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/login', '/auth/login');
 Route::view('/', 'customer.pages.home.index')->name('home.index');
-Route::view('/ticket', 'customer.pages.ticket.index')->name('ticket.index');
+Route::resource('tickets', \App\Http\Controllers\Customer\TicketController::class)->only('index', 'create', 'store');

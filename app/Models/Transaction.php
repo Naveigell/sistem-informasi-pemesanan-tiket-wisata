@@ -3,27 +3,50 @@
 namespace App\Models;
 
 use App\Enums\TransactionStatusEnum;
+use App\Interfaces\HasQrCode;
+use App\Interfaces\HasUuid;
 use App\Traits\CanSaveFile;
+use App\Traits\HasClass;
+use App\Traits\Transaction\CanConstructUrlForQrCode;
+use App\Utils\QrCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use Ramsey\Uuid\Uuid;
 
-class Transaction extends Model
+class Transaction extends Model implements HasQrCode, HasUuid
 {
-    use HasFactory, CanSaveFile {
-        saveFile as saveFileTrait;
+    use HasFactory, HasClass, CanConstructUrlForQrCode, CanSaveFile {
+        CanSaveFile::saveFile as saveFileTrait;
     }
 
     protected $fillable = [
         'user_id', 'transaction_id', 'ticket_id', 'customer_name', 'customer_email', 'customer_phone', 'customer_group',
-        'ticket_price', 'transaction_date', 'number_of_tickets', 'qr_code_image', 'transaction_status',
+        'ticket_price', 'booking_date', 'number_of_tickets', 'qr_code_image', 'transaction_status',
     ];
 
     protected $casts = [
         'transaction_status' => TransactionStatusEnum::class,
     ];
+
+    public function sendEmail()
+    {
+        // only send email if this transaction not belongs to any user
+        if (!$this->isDoesntHaveLoggedUser()) {
+
+        }
+    }
+
+    /**
+     * Determine if this transaction not belongs to any user
+     *
+     * @return bool
+     */
+    public function isDoesntHaveLoggedUser()
+    {
+        return !$this->user_id;
+    }
 
     /**
      * Get the user that owns the user.
@@ -95,5 +118,33 @@ class Transaction extends Model
         }
     }
 
+    /**
+     * Set the number of tickets attribute.
+     *
+     * @param  int  $value
+     * @return void
+     */
+    public function setNumberOfTicketAttribute($value)
+    {
+        $this->attributes['number_of_tickets'] = $value;
+    }
 
+    /**
+     * Generate a new UUID.
+     *
+     * @return void
+     */
+    public function generateUuid()
+    {
+        $this->attributes['transaction_code'] = Uuid::uuid4()->toString();
+    }
+
+    /**
+     * Generates a QR code.
+     */
+    public function generateQrCode()
+    {
+        // generate qr code
+        $this->saveFile('qr_code_image', QrCode::createQrCodeImage($this->constructUrl()), $this->qrCodeImagePath());
+    }
 }

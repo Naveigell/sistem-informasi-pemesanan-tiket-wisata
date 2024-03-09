@@ -3,22 +3,26 @@
 namespace App\Models;
 
 use App\Enums\TicketGroupEnum;
+use App\Interfaces\HasQrCode;
+use App\Interfaces\HasUuid;
 use App\Traits\CanSaveFile;
+use App\Traits\HasClass;
+use App\Traits\Transaction\CanConstructUrlForQrCode;
+use App\Utils\QrCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use Ramsey\Uuid\Uuid;
 
-class TransactionTicket extends Model
+class TransactionTicket extends Model implements HasUuid, HasQrCode
 {
-    use HasFactory, CanSaveFile {
-        saveFile as saveFileTrait;
+    use HasFactory, HasClass, CanConstructUrlForQrCode, CanSaveFile {
+        CanSaveFile::saveFile as saveFileTrait;
     }
 
     protected $fillable = [
         'transaction_id', 'transaction_code', 'name', 'price', 'group', 'ticket_code', 'qr_code_image',
-        'transaction_date',
     ];
 
     protected $casts = [
@@ -80,4 +84,22 @@ class TransactionTicket extends Model
         return $this->fullPath() . '/qr_codes';
     }
 
+    /**
+     * Generate a new UUID.
+     *
+     * @return void
+     */
+    public function generateUuid()
+    {
+        $this->attributes['transaction_code'] = Uuid::uuid4()->toString();
+    }
+
+    /**
+     * Generates a QR code.
+     */
+    public function generateQrCode()
+    {
+        // generate qr code
+        $this->saveFile('qr_code_image', QrCode::createQrCodeImage($this->constructUrl()), $this->qrCodeImagePath());
+    }
 }
