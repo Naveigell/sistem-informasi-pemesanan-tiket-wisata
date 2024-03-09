@@ -100,6 +100,6 @@ class TransactionTicket extends Model implements HasUuid, HasQrCode
     public function generateQrCode()
     {
         // generate qr code
-        $this->saveFile('qr_code_image', QrCode::createQrCodeImage($this->constructUrl()), $this->qrCodeImagePath());
+        $this->saveFile('qr_code_image', QrCode::createQrCodeImage($this->constructValidateQrCodeUrl()), $this->qrCodeImagePath());
     }
 }

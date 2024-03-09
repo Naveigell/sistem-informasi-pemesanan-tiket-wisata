@@ -9,8 +9,10 @@ trait HasClass
      *
      * @return string
      */
-    public function getCalledClass()
+    public function getClassShortName()
     {
-        return get_called_class();
+        $reflection = new \ReflectionClass($this);
+
+        return $reflection->getShortName();
     }
 }

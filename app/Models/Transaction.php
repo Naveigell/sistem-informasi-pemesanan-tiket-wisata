@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\TransactionStatusEnum;
 use App\Interfaces\HasQrCode;
 use App\Interfaces\HasUuid;
+use App\Jobs\SendGuestTicketOrderJob;
 use App\Traits\CanSaveFile;
 use App\Traits\HasClass;
 use App\Traits\Transaction\CanConstructUrlForQrCode;
@@ -22,19 +23,20 @@ class Transaction extends Model implements HasQrCode, HasUuid
     }
 
     protected $fillable = [
-        'user_id', 'transaction_id', 'ticket_id', 'customer_name', 'customer_email', 'customer_phone', 'customer_group',
-        'ticket_price', 'booking_date', 'number_of_tickets', 'qr_code_image', 'transaction_status',
+        'user_id', 'transaction_id', 'ticket_id', 'transaction_code', 'customer_name', 'customer_email', 'customer_phone',
+        'customer_group', 'ticket_price', 'booking_date', 'number_of_tickets', 'qr_code_image', 'transaction_status',
     ];
 
     protected $casts = [
         'transaction_status' => TransactionStatusEnum::class,
+        'booking_date' => 'date',
     ];
 
     public function sendEmail()
     {
         // only send email if this transaction not belongs to any user
-        if (!$this->isDoesntHaveLoggedUser()) {
-
+        if ($this->isDoesntHaveLoggedUser()) {
+            dispatch(new SendGuestTicketOrderJob($this));
         }
     }
 
@@ -145,6 +147,6 @@ class Transaction extends Model implements HasQrCode, HasUuid
     public function generateQrCode()
     {
         // generate qr code
-        $this->saveFile('qr_code_image', QrCode::createQrCodeImage($this->constructUrl()), $this->qrCodeImagePath());
+        $this->saveFile('qr_code_image', QrCode::createQrCodeImage($this->constructValidateQrCodeUrl()), $this->qrCodeImagePath());
     }
 }

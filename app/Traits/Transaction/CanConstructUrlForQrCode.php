@@ -16,17 +16,39 @@ trait CanConstructUrlForQrCode
      *
      * @return string The constructed URL
      */
-    public function constructUrl()
+    public function constructValidateQrCodeUrl()
+    {
+        // Generate URL with token, code, and date parameters
+        return route('admin.validate-qr') . '?' . $this->httpQueryString();
+    }
+
+    /**
+     * Construct the guest payment URL.
+     *
+     * @return string
+     */
+    public function constructGuestPaymentUrl()
+    {
+        // Generate the guest payment URL with HTTP query string
+        return route('guest.pay') . '?' . $this->httpQueryString();
+    }
+
+    /**
+     * Generates a query string for HTTP request.
+     *
+     * @return string The generated query string
+     */
+    private function httpQueryString()
     {
         // Generate token
-        $token = sha1(config('app.key') . $this->transaction_code . strtotime($this->transaction_date) . $this->getCalledClass());
+        $token = sha1(config('app.key') . $this->transaction_code . strtotime($this->booking_date) . $this->getClassShortName());
 
-        // Generate URL with token, code, and date parameters
-        return route('admin.validate-qr', [
+        // Build query parameters
+        return http_build_query([
             "token"     => $token,
             "code"      => $this->transaction_code,
-            "timestamp" => strtotime($this->transaction_date),
-            "type"      => $this->getCalledClass(),
+            "timestamp" => strtotime($this->booking_date),
+            "type"      => strtolower($this->getClassShortName()),
         ]);
     }
 }

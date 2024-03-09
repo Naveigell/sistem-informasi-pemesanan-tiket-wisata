@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Customer\TicketRequest;
+use App\Mail\GuestOrderMail;
 use App\Models\Ticket;
 use App\Models\Transaction;
 use App\Models\TransactionTicket;
 use App\Utils\QrCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class TicketController extends Controller
 {
