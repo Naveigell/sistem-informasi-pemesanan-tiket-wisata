@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PaymentRequest;
+use App\Jobs\SendGuestFailedPaymentJob;
+use App\Jobs\SendGuestSuccessPaymentJob;
 use App\Models\Payment;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -58,6 +60,13 @@ class PaymentController extends Controller
         abort_if($transaction->id != $payment->transaction_id, 404);
 
         $payment->update($request->validated());
+
+        // send email after payment valid or not valid
+        if ($payment->payment_status->isValid()) {
+            dispatch(new SendGuestSuccessPaymentJob($transaction));
+        } elseif ($payment->payment_status->isNotValid()) {
+            dispatch(new SendGuestFailedPaymentJob($transaction));
+        }
 
         return redirect(route('admin.transactions.edit', $transaction))->with('payment-success', 'Payment updated successfully');
     }

@@ -69,7 +69,7 @@ class TransactionSeeder extends Seeder
                         "transaction_code" => $faker->uuid,
                     ]));
                     $transactionTicket->transaction()->associate($transaction);
-                    $transactionTicket->setTotalTicketAttribute(rand(1, 3));
+                    $transactionTicket->setQuantityAttribute(rand(1, 3));
                     $transactionTicket->saveFile('qr_code_image', QrCode::createQrCodeImage($transactionTicket->constructValidateQrCodeUrl()), $transactionTicket->qrCodeImagePath());
                     $transactionTicket->save();
                 }

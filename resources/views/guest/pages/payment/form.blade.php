@@ -43,7 +43,7 @@
                             <tr>
                                 <td>List Tiket</td>
                                 <td>:</td>
-                                <td>{{ $transaction->transactionTickets->map(fn($ticket) => $ticket->name)->join(', ') }}</td>
+                                <td>{{ $transaction->transactionTickets->map(fn($ticket) => $ticket->name . ' (x' . $ticket->total_ticket . ')')->join(', ') }}</td>
                             </tr>
                             <tr>
                                 <td>Upload Bukti Pembayaran</td>

@@ -22,7 +22,7 @@ class TransactionTicket extends Model implements HasUuid, HasQrCode
     }
 
     protected $fillable = [
-        'transaction_id', 'transaction_code', 'name', 'price', 'group', 'ticket_code', 'qr_code_image',
+        'transaction_id', 'transaction_code', 'name', 'price', 'group', 'ticket_code', 'qr_code_image', 'quantity',
     ];
 
     protected $casts = [
@@ -45,9 +45,9 @@ class TransactionTicket extends Model implements HasUuid, HasQrCode
      * @param  string  $value
      * @return void
      */
-    public function setTotalTicketAttribute($value)
+    public function setQuantityAttribute($value)
     {
-        $this->attributes['total_ticket'] = $value;
+        $this->attributes['quantity'] = $value;
     }
 
     /**

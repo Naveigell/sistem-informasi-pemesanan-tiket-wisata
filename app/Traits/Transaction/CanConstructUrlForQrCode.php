@@ -34,6 +34,16 @@ trait CanConstructUrlForQrCode
     }
 
     /**
+     * Construct the URL for the guest ticket page.
+     *
+     * @return string The constructed URL
+     */
+    public function constructGuestTicketPageUrl()
+    {
+        return route('guest.transactions.show', $this->id) . '?' . $this->httpQueryString();
+    }
+
+    /**
      * Generates a query string for HTTP request.
      *
      * @return string The generated query string

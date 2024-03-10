@@ -24,7 +24,7 @@ return new class extends Migration
             $table->decimal('price', 15, 5);
             $table->string('group'); // kid, adult, senior, etc
             $table->string('qr_code_image'); // if customer want to scan the ticket
-            $table->unsignedInteger('total_ticket');
+            $table->unsignedInteger('quantity');
             $table->timestamps();
         });
     }

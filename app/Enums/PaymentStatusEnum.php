@@ -21,4 +21,24 @@ enum PaymentStatusEnum: string implements HasLabel
             self::FAILED => 'Gagal',
         };
     }
+
+    /**
+     * Check if the current status is valid
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        return in_array($this, [self::SUCCESS]);
+    }
+
+    /**
+     * Check if the current state is not valid
+     *
+     * @return bool
+     */
+    public function isNotValid()
+    {
+        return in_array($this, [self::FAILED]);
+    }
 }

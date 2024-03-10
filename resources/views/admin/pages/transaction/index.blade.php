@@ -21,7 +21,7 @@
                             <th class="col-1">Email Kustomer</th>
                             <th class="col-1">No Telp Kustomer</th>
                             <th class="col-1">Pembayaran Terakhir</th>
-                            <th class="col-1">Status</th>
+                            <th class="col-1">Status Transaksi</th>
                             <th class="col-2">Aksi</th>
                         </tr>
                         </thead>

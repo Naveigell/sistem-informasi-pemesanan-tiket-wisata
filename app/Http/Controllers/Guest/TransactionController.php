@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
@@ -13,11 +13,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with('latestPayment')
-            ->latest('booking_date')
-            ->paginate(10);
-
-        return view('admin.pages.transaction.index', compact('transactions'));
+        //
     }
 
     /**
@@ -41,7 +37,9 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        //
+        $transaction->load('transactionTickets');
+
+        return view('guest.pages.transaction.show', compact('transaction'));
     }
 
     /**
@@ -49,9 +47,7 @@ class TransactionController extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        $transaction->load('transactionTickets', 'latestPayment');
-
-        return view('admin.pages.transaction.form', compact('transaction'));
+        //
     }
 
     /**

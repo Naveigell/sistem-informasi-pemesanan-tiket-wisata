@@ -54,7 +54,7 @@ class TicketController extends Controller
                 $transactionTicket = new TransactionTicket($ticket->toArray());
                 $transactionTicket->generateUuid();
                 $transactionTicket->generateQrCode();
-                $transactionTicket->setTotalTicketAttribute($request->getTotalTicketById($ticket->id));
+                $transactionTicket->setQuantityAttribute($request->getTotalTicketById($ticket->id));
                 $transactionTicket->transaction()->associate($transaction);
                 $transactionTicket->save();
             }
