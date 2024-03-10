@@ -75,7 +75,17 @@ class Transaction extends Model implements HasQrCode, HasUuid
      */
     public function latestPayment()
     {
-        return $this->hasOne(Payment::class)->latest();
+        return $this->payment()->latest();
+    }
+
+    /**
+     * Define a relationship between the user and their payment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
     }
 
     public function getQrCodeImageUrlAttribute()

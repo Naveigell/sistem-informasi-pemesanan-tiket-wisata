@@ -1,3 +1,3 @@
 <?php
 
-Route::view('/pay', 'guest.pages.payment.form')->name('pay');
+Route::resource('payments', \App\Http\Controllers\Guest\PaymentController::class)->only('create', 'store');

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PaymentStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->foreignId('transaction_id')->constrained('transactions')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('payment_proof_image');
             $table->string('payment_method'); // credit card, paypal, virtual account, bank_transfer, etc
-            $table->string('payment_status'); // pending, success, failed
+            $table->string('payment_status')->default(PaymentStatusEnum::PENDING->value); // pending, success, failed
             $table->timestamps();
         });
     }

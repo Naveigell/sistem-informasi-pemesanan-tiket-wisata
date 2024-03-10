@@ -30,7 +30,7 @@ trait CanConstructUrlForQrCode
     public function constructGuestPaymentUrl()
     {
         // Generate the guest payment URL with HTTP query string
-        return route('guest.pay') . '?' . $this->httpQueryString();
+        return route('guest.payments.create') . '?' . $this->httpQueryString();
     }
 
     /**
@@ -38,10 +38,10 @@ trait CanConstructUrlForQrCode
      *
      * @return string The generated query string
      */
-    private function httpQueryString()
+    public function httpQueryString()
     {
         // Generate token
-        $token = sha1(config('app.key') . $this->transaction_code . strtotime($this->booking_date) . $this->getClassShortName());
+        $token = $this->createToken();
 
         // Build query parameters
         return http_build_query([
@@ -50,5 +50,28 @@ trait CanConstructUrlForQrCode
             "timestamp" => strtotime($this->booking_date),
             "type"      => strtolower($this->getClassShortName()),
         ]);
+    }
+
+    /**
+     * Create a unique token based on app key, transaction code, booking date, and class short name
+     *
+     * @return string
+     */
+    private function createToken()
+    {
+        // Combine the app key, transaction code, booking date timestamp, and class short name to generate the token
+        return sha1(config('app.key') . $this->transaction_code . strtotime($this->booking_date) . $this->getClassShortName());
+    }
+
+    /**
+     * Check if the provided token matches the generated token
+     *
+     * @param string $token
+     * @return bool
+     */
+    public function validateToken($token)
+    {
+        // Check if the generated token matches the provided token
+        return $token === $this->createToken();
     }
 }

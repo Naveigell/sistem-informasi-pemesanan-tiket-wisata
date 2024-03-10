@@ -46,7 +46,7 @@ class TicketController extends Controller
             $transaction = new Transaction($request->validated());
             $transaction->generateUuid();
             $transaction->generateQrCode();
-            $transaction->setNumberOfTicketAttribute($tickets->count());
+            $transaction->setNumberOfTicketAttribute($request->getTotalTickets());
             $transaction->save();
 
             // looping every tickets that user want to order and save every ticket into transaction
@@ -54,13 +54,14 @@ class TicketController extends Controller
                 $transactionTicket = new TransactionTicket($ticket->toArray());
                 $transactionTicket->generateUuid();
                 $transactionTicket->generateQrCode();
+                $transactionTicket->setTotalTicketAttribute($request->getTotalTicketById($ticket->id));
                 $transactionTicket->transaction()->associate($transaction);
                 $transactionTicket->save();
             }
 
             DB::commit();
 
-            // TODO: send payment email after creating transaction
+            // send payment email after creating transaction
             $transaction->sendEmail();
         } catch (\Exception $e) {
             DB::rollBack();

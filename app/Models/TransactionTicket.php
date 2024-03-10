@@ -36,12 +36,30 @@ class TransactionTicket extends Model implements HasUuid, HasQrCode
      */
     public function transaction()
     {
-        return $this->belongsTo(TransactionTicket::class);
+        return $this->belongsTo(Transaction::class);
     }
 
+    /**
+     * Set the total ticket attribute.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setTotalTicketAttribute($value)
+    {
+        $this->attributes['total_ticket'] = $value;
+    }
+
+    /**
+     * Get the URL for the QR code image attribute.
+     *
+     * @return string|null
+     */
     public function getQrCodeImageUrlAttribute()
     {
+        // Check if the QR code image file exists
         if (file_exists(storage_path("app/{$this->qrCodeImagePath()}/{$this->qr_code_image}"))) {
+            // Return the URL for the QR code image
             return asset("storage/qr_codes/{$this->qr_code_image}");
         }
     }

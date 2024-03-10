@@ -19,10 +19,33 @@ class TicketRequest extends BaseRequest
             "customer_phone" => "required|string|digits_between:3,17",
             "booking_date"   => "required|date|after:" . now()->format('Y-m-d'),
 
-            "total_tickets"  => "required|integer|gte:1",
+            "total_tickets"  => "required|integer|gte:1", // if total tickets is more than 0, it's mean customer already order ticket
             "ticket_ids"     => "required|array",
             "ticket_ids.*"   => "required|exists:tickets,id",
+            "tickets"        => "required|array",
+            "tickets.*"      => "required|integer|gte:0", // it's okay if ticket quantity is 0, because `total_tickets` already validate it
         ];
+    }
+
+    /**
+     * Get the total number of tickets.
+     *
+     * @return int
+     */
+    public function getTotalTickets()
+    {
+        return collect($this->tickets)->sum();
+    }
+
+    /**
+     * Get total ticket by id
+     *
+     * @param int $id The id of the ticket
+     * @return mixed|null The total ticket or null if not found
+     */
+    public function getTotalTicketById($id)
+    {
+        return $this->tickets[$id] ?? null;
     }
 
     /**
