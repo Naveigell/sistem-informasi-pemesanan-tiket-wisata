@@ -19,7 +19,7 @@ trait CanConstructUrlForQrCode
     public function constructValidateQrCodeUrl()
     {
         // Generate URL with token, code, and date parameters
-        return route('admin.validate-qr') . '?' . $this->httpQueryString();
+        return route('admin.validate.qr.create') . '?' . $this->buildTokenQueryString();
     }
 
     /**
@@ -30,7 +30,7 @@ trait CanConstructUrlForQrCode
     public function constructGuestPaymentUrl()
     {
         // Generate the guest payment URL with HTTP query string
-        return route('guest.payments.create') . '?' . $this->httpQueryString();
+        return route('guest.payments.create') . '?' . $this->buildTokenQueryString();
     }
 
     /**
@@ -40,7 +40,7 @@ trait CanConstructUrlForQrCode
      */
     public function constructGuestTicketPageUrl()
     {
-        return route('guest.transactions.show', $this->id) . '?' . $this->httpQueryString();
+        return route('guest.transactions.show', $this->id) . '?' . $this->buildTokenQueryString();
     }
 
     /**
@@ -48,7 +48,7 @@ trait CanConstructUrlForQrCode
      *
      * @return string The generated query string
      */
-    public function httpQueryString()
+    public function buildTokenQueryString()
     {
         // Generate token
         $token = $this->createToken();
@@ -57,7 +57,7 @@ trait CanConstructUrlForQrCode
         return http_build_query([
             "token"     => $token,
             "code"      => $this->transaction_code,
-            "timestamp" => strtotime($this->booking_date),
+            "timestamp" => strtotime($this->booking_date ?? $this->created_at), // transaction ticket doesn't have booking date, so we use created_at
             "type"      => strtolower($this->getClassShortName()),
         ]);
     }
@@ -70,7 +70,7 @@ trait CanConstructUrlForQrCode
     private function createToken()
     {
         // Combine the app key, transaction code, booking date timestamp, and class short name to generate the token
-        return sha1(config('app.key') . $this->transaction_code . strtotime($this->booking_date) . $this->getClassShortName());
+        return sha1(config('app.key') . $this->transaction_code . strtotime($this->booking_date ?? $this->created_at) . $this->getClassShortName());
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Guest;
 
+use App\Enums\QrCodeUrlTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -35,11 +36,42 @@ class TransactionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Transaction $transaction)
+    public function show(Request $request, Transaction $transaction)
     {
+        $transaction = $this->transaction($request, $transaction);
         $transaction->load('transactionTickets');
 
         return view('guest.pages.transaction.show', compact('transaction'));
+    }
+
+    /**
+     * Handle the transaction request
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \App\Models\Transaction
+     */
+    private function transaction(Request $request, Transaction $transaction)
+    {
+        // Check if all required parameters are present
+        abort_if(!$request->has('token', 'code', 'timestamp', 'type'), 404);
+
+        // Retrieve parameters from the request
+        $token     = $request->query('token');
+        $code      = $request->query('code');
+        $timestamp = $request->query('timestamp');
+        $type      = $request->query('type');
+
+        // Check if the specified type is valid
+        abort_if(QrCodeUrlTypeEnum::tryFrom($type) == null, 404);
+
+        // Validate the token for the transaction and check if the transaction id is same as the route parameter
+        abort_if(!$transaction->validateToken($token) || $transaction->id != $request->route('transaction'), 404);
+
+        // Load the transaction tickets for the transaction
+        $transaction->load('transactionTickets');
+
+        // Return the transaction
+        return $transaction;
     }
 
     /**

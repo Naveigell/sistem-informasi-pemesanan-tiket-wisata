@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TransactionTicketStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->string('group'); // kid, adult, senior, etc
             $table->string('qr_code_image'); // if customer want to scan the ticket
             $table->unsignedInteger('quantity');
+            $table->string('status')->default(TransactionTicketStatusEnum::PENDING->value);
             $table->timestamps();
         });
     }

@@ -20,4 +20,24 @@ enum QrCodeUrlTypeEnum: string implements HasLabel
             self::TRANSACTION_TICKET => 'Transaction Ticket',
         };
     }
+
+    /**
+     * Check if the current instance is a transaction.
+     *
+     * @return bool
+     */
+    public function isTransaction()
+    {
+        return $this === self::TRANSACTION;
+    }
+
+    /**
+     * Check if the current object is a transaction ticket
+     *
+     * @return bool
+     */
+    public function isTransactionTicket()
+    {
+        return $this === self::TRANSACTION_TICKET;
+    }
 }

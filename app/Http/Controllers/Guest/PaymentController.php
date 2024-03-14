@@ -52,7 +52,7 @@ class PaymentController extends Controller
             DB::rollBack();
         }
 
-        return redirect(route('guest.payments.create') . '?' . $transaction->httpQueryString())->with('success', 'Pembayaran berhasil, mohon untuk menunggu notifikasi pembayaran');
+        return redirect(route('guest.payments.create') . '?' . $transaction->buildTokenQueryString())->with('success', 'Pembayaran berhasil, mohon untuk menunggu notifikasi pembayaran');
     }
 
     /**

@@ -12,6 +12,7 @@
 <body>
 <div class="container my-5">
     <h2>Catatan : tunjukkan detail pada tabel di atas untuk melakukan scan terhadap semua tiket, dan tunjukkan tabel di bawah jika ini melakukan scan tiket secara satu persatu</h2>
+    <p>Status: <span class="badge-warning badge">Belum divalidasi</span></p>
     <div class="row">
         <div class="col-12 no-padding-margin my-5">
             <div class="card">
@@ -52,6 +53,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>Tiket - {{ $loop->iteration }}</h4>
+                        <span>{!! $ticket->status->toHtmlBadge() !!}</span>
                     </div>
                     <div class="card-body">
                         <div class="form-group">

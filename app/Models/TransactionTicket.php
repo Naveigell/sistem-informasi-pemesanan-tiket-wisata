@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TicketGroupEnum;
+use App\Enums\TransactionStatusEnum;
 use App\Interfaces\HasQrCode;
 use App\Interfaces\HasUuid;
 use App\Traits\CanSaveFile;
@@ -22,11 +23,12 @@ class TransactionTicket extends Model implements HasUuid, HasQrCode
     }
 
     protected $fillable = [
-        'transaction_id', 'transaction_code', 'name', 'price', 'group', 'ticket_code', 'qr_code_image', 'quantity',
+        'transaction_id', 'transaction_code', 'name', 'price', 'group', 'ticket_code', 'qr_code_image', 'quantity', 'status',
     ];
 
     protected $casts = [
         'group' => TicketGroupEnum::class,
+        'status' => TransactionStatusEnum::class,
     ];
 
     /**

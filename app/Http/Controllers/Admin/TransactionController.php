@@ -14,7 +14,7 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::with('latestPayment')
-            ->latest('booking_date')
+            ->latest()
             ->paginate(10);
 
         return view('admin.pages.transaction.index', compact('transactions'));

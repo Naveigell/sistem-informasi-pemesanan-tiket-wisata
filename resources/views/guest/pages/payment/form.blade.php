@@ -8,7 +8,8 @@
             @if ($message = session()->get('success'))
                 <x-alert.success :message="$message" :dismissable="true"></x-alert.success>
             @endif
-            <form action="{{ route('guest.payments.store') . '?' . $transaction->httpQueryString() }}" class="d-block" method="post" enctype="multipart/form-data">
+            <form action="{{ route('guest.payments.store') . '?' . $transaction->buildTokenQueryString() }}"
+                  class="d-block" method="post" enctype="multipart/form-data">
                 @csrf
                 <h6>Anda dapat melakukan pembayaran tiket melalui form berikut.</h6>
                 <div class="card">
@@ -43,7 +44,7 @@
                             <tr>
                                 <td>List Tiket</td>
                                 <td>:</td>
-                                <td>{{ $transaction->transactionTickets->map(fn($ticket) => $ticket->name . ' (x' . $ticket->total_ticket . ')')->join(', ') }}</td>
+                                <td>{{ $transaction->transactionTickets->map(fn($ticket) => $ticket->name . ' (x' . $ticket->quantity . ')')->join(', ') }}</td>
                             </tr>
                             <tr>
                                 <td>Upload Bukti Pembayaran</td>
@@ -52,7 +53,8 @@
                             </tr>
                         </table>
                         <p>
-                            <small class="text text-muted">* Catatan : Mohon diingat jika pembayaran tidak valid, maka anda akan menerima email kembali.</small>
+                            <small class="text text-muted">* Catatan : Mohon diingat jika pembayaran tidak valid, maka
+                                anda akan menerima email kembali.</small>
                         </p>
 
                         <button class="btn btn-primary">Upload</button>
