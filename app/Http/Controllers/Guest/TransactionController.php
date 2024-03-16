@@ -48,10 +48,19 @@ class TransactionController extends Controller
      * Handle the transaction request
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Transaction  $transaction
      * @return \App\Models\Transaction
      */
     private function transaction(Request $request, Transaction $transaction)
     {
+        // Check if the transaction belongs to the user and user has logged in
+        // if customer has logged in, we don't need to check by its query string
+        if (optional(auth()->user())->isCustomer() && $transaction->isBelongsToUser(auth()->user())) {
+            $transaction->load('transactionTickets');
+
+            return $transaction;
+        }
+
         // Check if all required parameters are present
         abort_if(!$request->has('token', 'code', 'timestamp', 'type'), 404);
 

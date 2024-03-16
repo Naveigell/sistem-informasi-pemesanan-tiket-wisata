@@ -13,10 +13,7 @@ class TicketRequest extends BaseRequest
      */
     public function rules(): array
     {
-        return [
-            "customer_name"  => "required|string|max:255",
-            "customer_email" => "required|string|max:150|email",
-            "customer_phone" => "required|string|digits_between:3,17",
+        $rules = [
             "booking_date"   => "required|date|after:" . now()->format('Y-m-d'),
 
             "total_tickets"  => "required|integer|gte:1", // if total tickets is more than 0, it's mean customer already order ticket
@@ -25,6 +22,18 @@ class TicketRequest extends BaseRequest
             "tickets"        => "required|array",
             "tickets.*"      => "required|integer|gte:0", // it's okay if ticket quantity is 0, because `total_tickets` already validate it
         ];
+
+        // if customer is not logged in, we need to get customer name, email and phone
+        // otherwise, we can use the customer name, email and phone from users table
+        if (!optional(auth()->user())->isCustomer()) {
+            return array_merge($rules, [
+                "customer_name"  => "required|string|max:255",
+                "customer_email" => "required|string|max:150|email",
+                "customer_phone" => "required|string|digits_between:3,17",
+            ]);
+        }
+
+        return $rules;
     }
 
     /**
@@ -57,7 +66,10 @@ class TicketRequest extends BaseRequest
     {
         $this->request->add([
             "total_tickets" => collect($this->tickets)->sum(),
-            "ticket_ids"    => collect($this->tickets)->keys()->toArray(),
+            "ticket_ids"    => collect($this->tickets)
+                ->filter(fn($value) => $value > 0) // we only need ticket id's if ticket quantity is more than 0
+                ->keys()
+                ->toArray(),
         ]);
     }
 }

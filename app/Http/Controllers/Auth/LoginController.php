@@ -15,7 +15,7 @@ class LoginController extends Controller
         if (auth()->attempt($request->only('email', 'password'))) {
 
             if (auth()->user()->isCustomer()) {
-                return redirect()->intended(route('customer.index'));
+                return redirect()->intended(route('customer.transactions.index'));
             }
 
             return redirect()->intended(route('admin.dashboard.index'));

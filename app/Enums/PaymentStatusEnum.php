@@ -2,9 +2,10 @@
 
 namespace App\Enums;
 
+use App\Enums\Interfaces\HasHtmlBadge;
 use App\Enums\Interfaces\HasLabel;
 
-enum PaymentStatusEnum: string implements HasLabel
+enum PaymentStatusEnum: string implements HasLabel, HasHtmlBadge
 {
     case PENDING = 'pending';
     case SUCCESS = 'success';
@@ -40,5 +41,17 @@ enum PaymentStatusEnum: string implements HasLabel
     public function isNotValid()
     {
         return in_array($this, [self::FAILED]);
+    }
+
+    /**
+     * Convert the data to a html badge.
+     */
+    public function toHtmlBadge()
+    {
+        return match ($this) {
+            self::PENDING => '<span class="badge badge-warning">' . $this->toLabel() . '</span>',
+            self::SUCCESS => '<span class="badge badge-success">' . $this->toLabel() . '</span>',
+            self::FAILED => '<span class="badge badge-danger">' . $this->toLabel() . '</span>',
+        };
     }
 }

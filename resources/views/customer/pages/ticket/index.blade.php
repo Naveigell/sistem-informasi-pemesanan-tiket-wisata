@@ -33,29 +33,31 @@
         <br>
         <div class="inner">
             <h1>Pesan Tiket Secara Online</h1>
-            <h3>Tiket dapat dipesan dengan login ataupun tidak, mohon untuk membaca tata cara dibawah.</h3>
-            <div>
-                Tata cara memesan tiket :
-                <ol class="pb-0 mb-0">
-                    <li>Dengan login</li>
-                </ol>
-                <ul class="ml-4 pb-1 mb-1">
-                    <li>Pengunjung diharapkan login dengan cara menekan menu di pojok kanan atas lalu memilih login</li>
-                    <li>Setelah berhasil login, pengunjung dapat melakukan pembelian tiket melalui halaman ini</li>
-                    <li>Setelah memilih tiket, pengunjung wajib untuk mengupload bukti pembarayaran untuk kemudian disetujui oleh admin</li>
-                    <li>Setelah disetujui oleh admin, pengunjung dapat menunjukkan tiketnya kepada petugas di tempat</li>
-                    <li>Kelebihan dari pembelian tiket dengan login terlebih dahulu adalah pengunjung dapat melihat history dari pembeliannya</li>
-                </ul>
-                <ol class="pb-0 mb-0" start="2">
-                    <li>Tanpa login</li>
-                </ol>
-                <ul class="ml-4 pb-1 mb-1">
-                    <li>Pengunjung dapat melakukan pembelian tiket dengan mengisi form pada form di bawah ini</li>
-                    <li>Setelah mengisi formuli, pengunjung akan mendapatkan email yang berisi link untuk mengupload bukti pembayaran</li>
-                    <li>Setelah bukti pembayaran berhasil di upload dan admin menyetujui pembayaran, pengunjung akan menerima tiket dan qr code melalui email</li>
-                    <li>Tunjukkan tiket tersebut kepada petugas di tempat</li>
-                </ul>
-            </div>
+            @if(!optional(auth()->user())->isCustomer())
+                <h3>Tiket dapat dipesan dengan login ataupun tidak, mohon untuk membaca tata cara dibawah.</h3>
+                <div>
+                    Tata cara memesan tiket :
+                    <ol class="pb-0 mb-0">
+                        <li>Dengan login</li>
+                    </ol>
+                    <ul class="ml-4 pb-1 mb-1">
+                        <li>Pengunjung diharapkan login dengan cara menekan menu di pojok kanan atas lalu memilih login</li>
+                        <li>Setelah berhasil login, pengunjung dapat melakukan pembelian tiket melalui halaman ini</li>
+                        <li>Setelah memilih tiket, pengunjung wajib untuk mengupload bukti pembarayaran untuk kemudian disetujui oleh admin</li>
+                        <li>Setelah disetujui oleh admin, pengunjung dapat menunjukkan tiketnya kepada petugas di tempat</li>
+                        <li>Kelebihan dari pembelian tiket dengan login terlebih dahulu adalah pengunjung dapat melihat history dari pembeliannya</li>
+                    </ul>
+                    <ol class="pb-0 mb-0" start="2">
+                        <li>Tanpa login</li>
+                    </ol>
+                    <ul class="ml-4 pb-1 mb-1">
+                        <li>Pengunjung dapat melakukan pembelian tiket dengan mengisi form pada form di bawah ini</li>
+                        <li>Setelah mengisi formuli, pengunjung akan mendapatkan email yang berisi link untuk mengupload bukti pembayaran</li>
+                        <li>Setelah bukti pembayaran berhasil di upload dan admin menyetujui pembayaran, pengunjung akan menerima tiket dan qr code melalui email</li>
+                        <li>Tunjukkan tiket tersebut kepada petugas di tempat</li>
+                    </ul>
+                </div>
+            @endif
             <form action="{{ route('tickets.store') }}" class="d-block" method="post">
                 @csrf
                 <div class="mt-5 pt-5">
@@ -64,33 +66,35 @@
                         <x-alert.success :message="$message" :dismissable="true"></x-alert.success>
                     @endif
                     <div>
-                        <div class="form-group">
-                            <label for="customer_name">Nama</label>
-                            <input type="text" class="form-control @error('customer_name') is-invalid @enderror" id="customer_name" name="customer_name" value="{{ old('customer_name') }}">
-                            @error('customer_name')
+                        @if(!optional(auth()->user())->isCustomer())
+                            <div class="form-group">
+                                <label for="customer_name">Nama</label>
+                                <input type="text" class="form-control @error('customer_name') is-invalid @enderror" id="customer_name" name="customer_name" value="{{ old('customer_name') }}">
+                                @error('customer_name')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="customer_email">Email</label>
-                            <input type="text" class="form-control @error('customer_email') is-invalid @enderror" id="customer_email" name="customer_email" value="{{ old('customer_email') }}">
-                            @error('customer_email')
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_email">Email</label>
+                                <input type="text" class="form-control @error('customer_email') is-invalid @enderror" id="customer_email" name="customer_email" value="{{ old('customer_email') }}">
+                                @error('customer_email')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="customer_phone">No Telepon</label>
-                            <input type="text" class="form-control @error('customer_phone') is-invalid @enderror" value="{{ old('customer_phone') }}" id="customer_phone" name="customer_phone">
-                            @error('customer_phone')
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_phone">No Telepon</label>
+                                <input type="text" class="form-control @error('customer_phone') is-invalid @enderror" value="{{ old('customer_phone') }}" id="customer_phone" name="customer_phone">
+                                @error('customer_phone')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
-                            @enderror
-                        </div>
+                                @enderror
+                            </div>
+                        @endif
                         <div class="form-group">
                             <label for="booking_date">Tanggal Pesan</label>
                             <input type="date" class="form-control @error('booking_date') is-invalid @enderror" value="{{ old('booking_date') }}" id="booking_date" name="booking_date">

@@ -35,7 +35,7 @@ class Transaction extends Model implements HasQrCode, HasUuid
     public function sendEmail()
     {
         // only send email if this transaction not belongs to any user
-        if ($this->isDoesntHaveLoggedUser()) {
+        if ($this->isNotBelongsToAnyCustomer()) {
             dispatch(new SendGuestTicketOrderJob($this));
         }
     }
@@ -45,9 +45,21 @@ class Transaction extends Model implements HasQrCode, HasUuid
      *
      * @return bool
      */
-    public function isDoesntHaveLoggedUser()
+    public function isNotBelongsToAnyCustomer()
     {
         return !$this->user_id;
+    }
+
+    /**
+     * Checks if the current instance belongs to a specific user.
+     *
+     * @param User $user The user to compare against.
+     * @return bool Returns true if the current instance belongs to the user, false otherwise.
+     */
+    public function isBelongsToUser(User $user)
+    {
+        // Compare the user IDs to determine if the current instance belongs to the user
+        return $this->user_id == $user->id;
     }
 
     /**

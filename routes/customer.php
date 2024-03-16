@@ -3,6 +3,5 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    dd('customer');
-})->name('index');
+// TODO: create transaction for customer
+Route::resource('transactions', \App\Http\Controllers\Customer\TransactionController::class);

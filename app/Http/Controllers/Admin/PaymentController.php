@@ -61,11 +61,15 @@ class PaymentController extends Controller
 
         $payment->update($request->validated());
 
-        // send email after payment valid or not valid
-        if ($payment->payment_status->isValid()) {
-            dispatch(new SendGuestSuccessPaymentJob($transaction));
-        } elseif ($payment->payment_status->isNotValid()) {
-            dispatch(new SendGuestFailedPaymentJob($transaction));
+        // if transaction is not belongs to any customer, we send email
+        // if it's for logged user (customer)
+        if ($transaction->isNotBelongsToAnyCustomer()) {
+            // send email after payment valid or not valid
+            if ($payment->payment_status->isValid()) {
+                dispatch(new SendGuestSuccessPaymentJob($transaction));
+            } elseif ($payment->payment_status->isNotValid()) {
+                dispatch(new SendGuestFailedPaymentJob($transaction));
+            }
         }
 
         return redirect(route('admin.transactions.edit', $transaction))->with('payment-success', 'Payment updated successfully');

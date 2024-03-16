@@ -43,7 +43,27 @@ class TicketController extends Controller
         try {
             $tickets = Ticket::whereIn('id', $request->ticket_ids)->get();
 
-            $transaction = new Transaction($request->validated());
+            $data = $request->validated();
+
+            // if customer is logged in, we got the customer data from it's bio data
+            if (optional(auth()->user())->isCustomer()) {
+
+                /**
+                 * @var \App\Models\User $user
+                 * @var \App\Models\Customer $userable
+                 */
+                $user = auth()->user();
+                $userable = $user->userable;
+
+                $data = array_merge($data, [
+                    "user_id" => $user->id,
+                    "customer_name" => $user->name,
+                    "customer_email" => $user->email,
+                    "customer_phone" => $userable->phone,
+                ]);
+            }
+
+            $transaction = new Transaction($data);
             $transaction->generateUuid();
             $transaction->generateQrCode();
             $transaction->setNumberOfTicketAttribute($request->getTotalTickets());
