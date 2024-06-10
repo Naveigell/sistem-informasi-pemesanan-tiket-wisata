@@ -21,9 +21,7 @@ return new class extends Migration
             $table->uuid('transaction_code'); // should be uuid
             // same like `tickets` table, why? for snapshots
             $table->string('name');
-            $table->string('ticket_code');
             $table->decimal('price', 15, 5);
-            $table->string('group'); // kid, adult, senior, etc
             $table->string('qr_code_image'); // if customer want to scan the ticket
             $table->unsignedInteger('quantity');
             $table->string('status')->default(TransactionTicketStatusEnum::PENDING->value);

@@ -32,7 +32,7 @@ class TransactionSeeder extends Seeder
         $groups              = collect(TicketGroupEnum::cases());
         $transactionStatuses = collect(TransactionStatusEnum::cases());
 
-        foreach (range(30, 50) as $_) {
+        foreach (range(1, 10) as $_) {
             DB::transaction(function () use ($faker, $groups, $transactionStatuses, $customers, $tickets) {
                 /**
                  * @var TicketGroupEnum $group
@@ -65,7 +65,7 @@ class TransactionSeeder extends Seeder
                 // create transaction ticket and their qr code,
                 // why should create qr_code_image? what if customer want to scan it differently?
                 foreach ($transactionTickets as $item) {
-                    $transactionTicket = new TransactionTicket(array_merge($item->only('name', 'price', 'group', 'ticket_code'), [
+                    $transactionTicket = new TransactionTicket(array_merge($item->only('name', 'price'), [
                         "transaction_code" => $faker->uuid,
                     ]));
                     $transactionTicket->transaction()->associate($transaction);

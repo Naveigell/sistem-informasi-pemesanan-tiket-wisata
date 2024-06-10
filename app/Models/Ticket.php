@@ -11,10 +11,6 @@ class Ticket extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'ticket_code', 'price', 'group',
-    ];
-
-    protected $casts = [
-        'group' => TicketGroupEnum::class
+        'name', 'price',
     ];
 }

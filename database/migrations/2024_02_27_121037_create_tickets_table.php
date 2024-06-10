@@ -14,9 +14,7 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('ticket_code');
             $table->decimal('price', 15, 5);
-            $table->string('group'); // kid, adult, senior, etc
             $table->timestamps();
         });
     }

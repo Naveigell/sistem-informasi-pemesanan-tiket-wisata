@@ -14,12 +14,8 @@ class TicketRequest extends BaseRequest
      */
     public function rules(): array
     {
-        $groups = collect(TicketGroupEnum::cases())->map(fn ($item) => $item->value);
-
         return [
             "name"        => "required|string|max:100",
-            "ticket_code" => "required|string|max:15",
-            "group"       => "required|string|in:" . $groups->join(','),
             "price"       => "required|numeric|min:0|max:999999", // max: 999.999
         ];
     }

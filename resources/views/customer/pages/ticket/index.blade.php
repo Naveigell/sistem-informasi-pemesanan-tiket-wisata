@@ -2,32 +2,7 @@
 
 @section('content-body')
     <div class="main">
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="{{ asset('customer/images/slider-image-1-1920x700.jpg') }}" alt="First slide">
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="{{ asset('customer/images/slider-image-2-1920x700.jpg') }}" alt="Second slide">
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="{{ asset('customer/images/slider-image-3-1920x700.jpg') }}" alt="Third slide">
-                </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
+        <x-carousel></x-carousel>
 
         <br>
         <br>
@@ -116,20 +91,12 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="form-group">
-                                                <label>Kode Tiket</label>
-                                                <input type="text" disabled class="form-control" value="{{ $ticket->ticket_code }}">
-                                            </div>
-                                            <div class="form-group">
                                                 <label>Nama Tiket</label>
                                                 <input type="text" disabled class="form-control" value="{{ $ticket->name }}">
                                             </div>
                                             <div class="form-group">
                                                 <label>Harga Tiket</label>
                                                 <input type="text" disabled class="form-control" value="{{ format_price($ticket->price) }}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Tipe Tiket</label>
-                                                <input type="text" disabled class="form-control" value="{{ $ticket->group->toLabel() }}">
                                             </div>
                                             <div class="form-group">
                                                 <label>Jumlah Tiket</label>

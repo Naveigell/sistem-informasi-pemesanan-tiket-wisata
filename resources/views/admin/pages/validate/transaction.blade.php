@@ -77,20 +77,12 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label>Kode Tiket</label>
-                            <input type="text" disabled class="form-control" value="{{ $ticket->ticket_code }}">
-                        </div>
-                        <div class="form-group">
                             <label>Nama Tiket</label>
                             <input type="text" disabled class="form-control" value="{{ $ticket->name }}">
                         </div>
                         <div class="form-group">
                             <label>Harga Tiket</label>
                             <input type="text" disabled class="form-control" value="{{ format_price($ticket->price) }}">
-                        </div>
-                        <div class="form-group">
-                            <label>Tipe Tiket</label>
-                            <input type="text" disabled class="form-control" value="{{ $ticket->group->toLabel() }}">
                         </div>
                         <div class="form-group">
                             <label>Jumlah</label>

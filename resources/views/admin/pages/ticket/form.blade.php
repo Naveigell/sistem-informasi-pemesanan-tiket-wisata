@@ -22,29 +22,6 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label>Kode Tiket</label>
-                        <input type="text" class="form-control @error('ticket_code') is-invalid @enderror" name="ticket_code" value="{{ old('ticket_code', @$ticket ? $ticket->ticket_code : '') }}">
-                        @error('ticket_code')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label>Tipe Tiket</label>
-                        <select name="group" id="" class="form-control @error('group') is-invalid @enderror">
-                            <x-nothing-selected></x-nothing-selected>
-                            @foreach(\App\Enums\TicketGroupEnum::cases() as $enum)
-                                <option value="{{ $enum->value }}" {{ old('group', @$ticket ? $ticket->group->value : '') == $enum->value ? 'selected' : '' }}>{{ $enum->toLabel() }}</option>
-                            @endforeach
-                        </select>
-                        @error('group')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
                         <label>Harga</label>
                         <input type="text" class="form-control price @error('price') is-invalid @enderror" name="price" value="{{ old('price', @$ticket ? round($ticket->price) : '') }}">
                         @error('price')

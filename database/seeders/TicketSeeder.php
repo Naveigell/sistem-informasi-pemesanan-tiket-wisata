@@ -16,14 +16,22 @@ class TicketSeeder extends Seeder
     public function run(): void
     {
         $faker  = Factory::create('id_ID');
-        $groups = TicketGroupEnum::cases();
 
-        foreach ($groups as $group) {
+        $tickets = [
+            [
+                "name" => "Domestic",
+                "price" => 50_000
+            ],
+            [
+                "name" => "Wisatawan",
+                "price" => 75_000
+            ]
+        ];
+
+        foreach ($tickets as $ticket) {
             Ticket::create([
-                "name"        => $faker->streetName,
-                "ticket_code" => strtoupper(substr(uniqid(), -5)),
-                "group"       => $group->value,
-                "price"       => rand(2, 5) * (10 ** rand(4, 5)),
+                "name"  => $ticket['name'],
+                "price" => $ticket['price'],
             ]);
         }
     }

@@ -23,8 +23,6 @@
                         <tr>
                             <th class="col-1">No</th>
                             <th class="col-1">Nama</th>
-                            <th class="col-1">Kode</th>
-                            <th class="col-1">Tipe</th>
                             <th class="col-1">Harga</th>
                             <th class="col-2">Aksi</th>
                         </tr>
@@ -36,8 +34,6 @@
                                     <x-iterate :pagination="$tickets" :loop="$loop"></x-iterate>
                                 </td>
                                 <td class="py-3">{{ $ticket->name }}</td>
-                                <td>{{ $ticket->ticket_code }}</td>
-                                <td>{{ $ticket->group->toLabel() }}</td>
                                 <td>{{ format_price($ticket->price) }}</td>
                                 <td>
                                     <a href="{{ route('admin.tickets.edit', $ticket) }}" class="btn btn-warning"><i class="fa fa-eye"></i></a>

@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             $user->userable()->associate($admin)->save();
         });
 
-        foreach (range(1, 15) as $i) {
+        foreach (range(1, 4) as $i) {
             DB::transaction(function () use ($faker, $i) {
                 // specify only 1 customer to be had static data, for easy testing
                 $name  = $i == 1 ? "Customer" : $faker->name;

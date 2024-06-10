@@ -34,20 +34,12 @@
             </div>
             <hr>
             <div class="form-group">
-                <label>Kode Tiket</label>
-                <input type="text" disabled class="form-control" value="{{ $model->ticket_code }}">
-            </div>
-            <div class="form-group">
                 <label>Nama Tiket</label>
                 <input type="text" disabled class="form-control" value="{{ $model->name }}">
             </div>
             <div class="form-group">
                 <label>Harga Tiket</label>
                 <input type="text" disabled class="form-control" value="{{ format_price($model->price) }}">
-            </div>
-            <div class="form-group">
-                <label>Tipe Tiket</label>
-                <input type="text" disabled class="form-control" value="{{ $model->group->toLabel() }}">
             </div>
             <div class="form-group">
                 <label>Jumlah</label>

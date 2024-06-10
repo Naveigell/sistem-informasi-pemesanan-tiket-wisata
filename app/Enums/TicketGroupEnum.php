@@ -9,6 +9,7 @@ enum TicketGroupEnum: string implements HasLabel
     case KID = 'kid';
     case ADULT = 'adult';
     case SENIOR = 'senior';
+    case ALL = 'all';
 
     /**
      * Returns the label for this enum.
@@ -19,6 +20,7 @@ enum TicketGroupEnum: string implements HasLabel
             self::KID => 'Anak - anak',
             self::ADULT => 'Orang dewasa',
             self::SENIOR => 'Senior',
-        } ;
+            self::ALL => 'Semua',
+        };
     }
 }
