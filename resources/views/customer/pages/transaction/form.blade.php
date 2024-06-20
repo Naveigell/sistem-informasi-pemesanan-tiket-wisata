@@ -81,10 +81,6 @@
                                     <label>Harga Tiket</label>
                                     <input type="text" disabled class="form-control" value="{{ format_price($ticket->price) }}">
                                 </div>
-                                <div class="form-group">
-                                    <label>Tipe Tiket</label>
-                                    <input type="text" disabled class="form-control" value="{{ $ticket->group->toLabel() }}">
-                                </div>
                                 @if($transaction->transaction_status->isSuccess())
                                     <div class="form-group">
                                         <label>Qr Code</label>

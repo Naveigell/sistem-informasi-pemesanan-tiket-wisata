@@ -69,10 +69,6 @@
                             <input type="text" disabled class="form-control" value="{{ format_price($ticket->price) }}">
                         </div>
                         <div class="form-group">
-                            <label>Tipe Tiket</label>
-                            <input type="text" disabled class="form-control" value="{{ $ticket->group->toLabel() }}">
-                        </div>
-                        <div class="form-group">
                             <label>Qr Code</label>
                             <div>
                                 <a href="{{ $ticket->qr_code_image_url }}" class="image-zoom">

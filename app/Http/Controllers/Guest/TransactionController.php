@@ -56,7 +56,7 @@ class TransactionController extends Controller
         // Check if the transaction belongs to the user and user has logged in
         // if customer has logged in, we don't need to check by its query string
         if (optional(auth()->user())->isCustomer() && $transaction->isBelongsToUser(auth()->user())) {
-            $transaction->load('transactionTickets');
+            $transaction->loadMissing('transactionTickets');
 
             return $transaction;
         }
@@ -66,18 +66,24 @@ class TransactionController extends Controller
 
         // Retrieve parameters from the request
         $token     = $request->query('token');
-        $code      = $request->query('code');
-        $timestamp = $request->query('timestamp');
         $type      = $request->query('type');
 
         // Check if the specified type is valid
         abort_if(QrCodeUrlTypeEnum::tryFrom($type) == null, 404);
 
+        $id = $request->route('transaction');
+
+        // sometimes route parameters would not converted to int, so we need to convert it into int if the variable type
+        // is Transaction
+        if ($id instanceof Transaction) {
+            $id = $id->id;
+        }
+
         // Validate the token for the transaction and check if the transaction id is same as the route parameter
-        abort_if(!$transaction->validateToken($token) || $transaction->id != $request->route('transaction'), 404);
+        abort_if(!$transaction->validateToken($token) || $transaction->id != $id, 404);
 
         // Load the transaction tickets for the transaction
-        $transaction->load('transactionTickets');
+        $transaction->loadMissing('transactionTickets');
 
         // Return the transaction
         return $transaction;
