@@ -17,6 +17,11 @@
                         <p>Detail transaksi:</p>
                         <table class="table">
                             <tr>
+                                <td class="col-2">Nik</td>
+                                <td class="col-1">:</td>
+                                <td>{{ $transaction->identity_number ?? '-' }}</td>
+                            </tr>
+                            <tr>
                                 <td class="col-2">Nama</td>
                                 <td class="col-1">:</td>
                                 <td>{{ $transaction->customer_name }}</td>
@@ -34,7 +39,7 @@
                             <tr>
                                 <td>Tanggal Pemesanan</td>
                                 <td>:</td>
-                                <td>{{ $transaction->booking_date->format('d F Y') }}</td>
+                                <td>{{ $transaction->booking_date->format("d F Y") }}</td>
                             </tr>
                             <tr>
                                 <td>Jumlah Tiket</td>

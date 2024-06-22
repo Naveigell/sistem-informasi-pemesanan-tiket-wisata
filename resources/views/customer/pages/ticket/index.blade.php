@@ -21,6 +21,7 @@
                         <li>Setelah memilih tiket, pengunjung wajib untuk mengupload bukti pembarayaran untuk kemudian disetujui oleh admin</li>
                         <li>Setelah disetujui oleh admin, pengunjung dapat menunjukkan tiketnya kepada petugas di tempat</li>
                         <li>Kelebihan dari pembelian tiket dengan login terlebih dahulu adalah pengunjung dapat melihat history dari pembeliannya</li>
+                        <li>Wisatawan <b>domestik</b> wajib mencantumkan <b>nik</b> saat membeli tiket</li>
                     </ul>
                     <ol class="pb-0 mb-0" start="2">
                         <li>Tanpa login</li>
@@ -30,6 +31,7 @@
                         <li>Setelah mengisi formuli, pengunjung akan mendapatkan email yang berisi link untuk mengupload bukti pembayaran</li>
                         <li>Setelah bukti pembayaran berhasil di upload dan admin menyetujui pembayaran, pengunjung akan menerima tiket dan qr code melalui email</li>
                         <li>Tunjukkan tiket tersebut kepada petugas di tempat</li>
+                        <li>Wisatawan <b>domestik</b> wajib mencantumkan <b>nik</b> saat membeli tiket</li>
                     </ul>
                 </div>
             @endif
@@ -74,6 +76,16 @@
                             <label for="booking_date">Tanggal Pesan</label>
                             <input type="date" class="form-control @error('booking_date') is-invalid @enderror" value="{{ old('booking_date') }}" id="booking_date" name="booking_date">
                             @error('booking_date')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="booking_date">Nik</label>
+                            <input type="text" class="form-control @error('identity_number') is-invalid @enderror" value="{{ old('identity_number') }}" id="identity_number" name="identity_number">
+                            <small class="text-muted text-small">* Wisatawan domestik wajib memasukkan nik</small>
+                            @error('identity_number')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>

@@ -41,6 +41,7 @@ class UserSeeder extends Seeder
                 $email = $i == 1 ? "customer@gmail.com" : $faker->unique()->email;
 
                 $this->createCustomer([
+                    "identity_number" => $faker->unique()->numerify('############'),
                     "address" => $faker->address,
                     "phone" => $faker->unique()->numerify('+628###########'),
                 ], [

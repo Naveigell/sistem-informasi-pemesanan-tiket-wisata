@@ -85,6 +85,8 @@ class TicketController extends Controller
             $transaction->sendEmail();
         } catch (\Exception $e) {
             DB::rollBack();
+
+            dd($e->getMessage());
         }
 
         return redirect(route('tickets.index'))->with('success', 'Berhasil memesan tiket, mohon untuk mengecek email anda untuk melanjutkan pembayaran');

@@ -35,11 +35,9 @@ class TransactionSeeder extends Seeder
         foreach (range(1, 10) as $_) {
             DB::transaction(function () use ($faker, $groups, $transactionStatuses, $customers, $tickets) {
                 /**
-                 * @var TicketGroupEnum $group
                  * @var TransactionStatusEnum $status
                  * @var User $customer
                  */
-                $group    = $groups->random();
                 $status   = $transactionStatuses->random();
                 $customer = $customers->random();
 
@@ -50,6 +48,7 @@ class TransactionSeeder extends Seeder
                 $transactionTickets = $tickets->shuffle()->take(rand(1, 3));
 
                 $transaction = new Transaction([
+                    "identity_number"    => $customer->userable->identity_number,
                     "customer_name"      => $faker->name,
                     "customer_email"     => $faker->email,
                     "customer_phone"     => $faker->numerify("+62#############"),

@@ -20,6 +20,7 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->uuid('transaction_code'); // should be uuid
+            $table->string('identity_number')->nullable();
             $table->string('customer_name');
             $table->string('customer_email');
             $table->string('customer_phone');

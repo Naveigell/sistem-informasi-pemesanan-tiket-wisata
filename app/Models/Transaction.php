@@ -23,7 +23,7 @@ class Transaction extends Model implements HasQrCode, HasUuid
     }
 
     protected $fillable = [
-        'user_id', 'transaction_id', 'ticket_id', 'transaction_code', 'customer_name', 'customer_email', 'customer_phone',
+        'user_id', 'transaction_id', 'ticket_id', 'identity_number', 'transaction_code', 'customer_name', 'customer_email', 'customer_phone',
         'customer_group', 'ticket_price', 'booking_date', 'number_of_tickets', 'qr_code_image', 'transaction_status',
     ];
 

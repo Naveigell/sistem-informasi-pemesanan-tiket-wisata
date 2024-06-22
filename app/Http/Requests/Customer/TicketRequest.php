@@ -27,9 +27,10 @@ class TicketRequest extends BaseRequest
         // otherwise, we can use the customer name, email and phone from users table
         if (!optional(auth()->user())->isCustomer()) {
             return array_merge($rules, [
-                "customer_name"  => "required|string|max:255",
-                "customer_email" => "required|string|max:150|email",
-                "customer_phone" => "required|string|digits_between:3,17",
+                "identity_number" => "nullable|string|numeric|max_digits:20|min_digits:0",
+                "customer_name"   => "required|string|max:255",
+                "customer_email"  => "required|string|max:150|email",
+                "customer_phone"  => "required|string|digits_between:3,17",
             ]);
         }
 

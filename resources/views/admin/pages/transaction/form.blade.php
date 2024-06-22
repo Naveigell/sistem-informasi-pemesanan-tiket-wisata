@@ -15,6 +15,10 @@
                         <input type="text" disabled class="form-control" value="{{ @$transaction ? $transaction->transaction_code : '' }}">
                     </div>
                     <div class="form-group">
+                        <label>Nik Customer</label>
+                        <input type="text" disabled class="form-control" value="{{ @$transaction ? $transaction->identity_number : '' }}">
+                    </div>
+                    <div class="form-group">
                         <label>Nama Customer</label>
                         <input type="text" disabled class="form-control" value="{{ @$transaction ? $transaction->customer_name : '' }}">
                     </div>
