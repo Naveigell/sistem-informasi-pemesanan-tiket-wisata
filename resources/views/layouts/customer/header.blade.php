@@ -25,6 +25,13 @@
 
         <li><a href="{{ route('tickets.index') }}">Pesan Tiket</a></li>
         <li><a href="{{ route('galleries.index') }}">Galeri</a></li>
-        <li><a href="{{ route('auth.login.index') }}">Login</a></li>
+        @if(optional(auth()->user())->isCustomer())
+            <li><a href="{{ route('profile.create') }}">Profile &nbsp; <i class="fa fa-user"></i></a></li>
+        @endif
+        @if(optional(auth()->user())->isCustomer())
+            <li><a href="{{ route('auth.logout') }}">Logout</a></li>
+        @else
+            <li><a href="{{ route('auth.login.index') }}">Login</a></li>
+        @endif
     </ul>
 </nav>

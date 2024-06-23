@@ -17,3 +17,8 @@ Route::redirect('/login', '/auth/login');
 Route::get('/', \App\Http\Controllers\Customer\HomeController::class)->name('home.index');
 Route::resource('tickets', \App\Http\Controllers\Customer\TicketController::class)->only('index', 'create', 'store');
 Route::resource('galleries', \App\Http\Controllers\Customer\GalleryController::class)->only('index');
+
+Route::middleware('redirect.if.not.authenticated', 'must.have.role:customer')->group(function () {
+    Route::resource('profile', \App\Http\Controllers\Customer\ProfileController::class)->only('create', 'store');
+    Route::patch('profile/password', [\App\Http\Controllers\Customer\ProfileController::class, 'password'])->name('profile.password');
+});

@@ -10,6 +10,9 @@ Route::resource('tickets', \App\Http\Controllers\Admin\TicketController::class)-
 Route::resource('transactions', \App\Http\Controllers\Admin\TransactionController::class)->except('show');
 Route::resource('transactions.payments', \App\Http\Controllers\Admin\PaymentController::class)->only('update');
 
+Route::resource('profile', \App\Http\Controllers\Admin\ProfileController::class)->only('create', 'store');
+Route::patch('profile/password', [\App\Http\Controllers\Admin\ProfileController::class, 'password'])->name('profile.password');
+
 Route::prefix('validate')->name('validate.')->group(function () {
     Route::resource('qr', \App\Http\Controllers\Admin\ValidateQrCodeController::class)->only('create', 'store');
 });
