@@ -16,6 +16,7 @@
             <li class="@if (request()->routeIs('admin.transactions.*')) active @endif"><a class="nav-link" href="{{ route('admin.transactions.index') }}"><i class="fas fa-credit-card"></i> <span>Pemesanan</span></a></li>
             <li class="menu-header">Tambahan</li>
             <li class="@if (request()->routeIs('admin.galleries.*')) active @endif"><a class="nav-link" href="{{ route('admin.galleries.index') }}"><i class="fas fa-images"></i> <span>Galeri</span></a></li>
+            <li class="@if (request()->routeIs('admin.testimonials.*')) active @endif"><a class="nav-link" href="{{ route('admin.testimonials.index') }}"><i class="fas fa-user-graduate"></i> <span>Testimoni</span></a></li>
         </ul>
     </aside>
 </div>

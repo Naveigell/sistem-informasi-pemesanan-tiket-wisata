@@ -29,24 +29,32 @@
 
             <br>
 
-            <h2 class="h2">Testimonials</h2>
+            <h2 class="h2 mt-5 text-center">Testimonials</h2>
 
-            <div class="row">
-                <div class="col-sm-6 text-center">
-                    <p class="m-n"><em>"Mencari tempat rekreasi yang cocok untuk semua anggota keluarga memanglah tidak mudah. Tapi, saya baru saja menemukan tempat yang sempurna!"</em></p>
+            <div id="carouselExampleControls" class="carousel slide mt-5 pt-5" data-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach($testimonials as $chunks)
+                        <div class="carousel-item @if($loop->first) active @endif text-center">
+                            <div class="row">
+                                @foreach($chunks as $testimonial)
+                                    <div class="col-sm-6 text-center">
+                                        <p class="m-n"><em>"{{ $testimonial->description }}"</em></p>
 
-                    <p><strong> - Andini</strong></p>
+                                        <p><strong> - {{ $testimonial->name }}</strong></p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-
-                <div class="col-sm-6 text-center">
-                    <p class="m-n"><em>"Staf di tempat ini sangat ramah dan membantu. Mereka selalu siap menjawab pertanyaan dan memberikan informasi tentang tempat rekreasi.
-
-                            Suasana di sini juga sangat bersih dan nyaman. Tersedia banyak tempat duduk dan toilet yang bersih.
-
-                            Secara keseluruhan, saya sangat puas dengan pengalaman saya di Wanagiri Heaven. Tempat ini sangat cocok untuk keluarga yang ingin menghabiskan waktu bersama dengan menyenangkan."</em></p>
-
-                    <p><strong>- Putra</strong> </p>
-                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" style="border: none; left: -120px;">
+                    <span class="carousel-control-prev-icon" aria-hidden="true" style="color: black; background-color: black;"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" style="border: none; right: -120px;">
+                    <span class="carousel-control-next-icon" aria-hidden="true" style="color: black; background-color: black;"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
 
             <br>
