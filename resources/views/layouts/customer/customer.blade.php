@@ -8,6 +8,9 @@
     @stack('content-style')
 </head>
 <body class="is-preload">
+
+<x-google.translate style="position: fixed; bottom: 50px; right: 30px; z-index: 99999;"></x-google.translate>
+
 <!-- Wrapper -->
 <div id="wrapper">
 
