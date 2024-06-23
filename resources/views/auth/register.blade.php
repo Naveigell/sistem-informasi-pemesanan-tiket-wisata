@@ -40,9 +40,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}">
-                                    @error('username')
+                                    <label for="email">Email</label>
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}">
+                                    @error('email')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -50,9 +50,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}">
-                                    @error('email')
+                                    <label for="phone">No Telp</label>
+                                    <input id="phone" type="email" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}">
+                                    @error('phone')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -71,11 +71,23 @@
                                     @enderror
                                 </div>
 
+                                <div class="form-group">
+                                    <div class="d-block">
+                                        <label for="address" class="control-label">Alamat</label>
+                                    </div>
+                                    <textarea name="address" id="address" cols="30" rows="10" style="min-height: 100px; resize: none;" class="@error('address') is-invalid @enderror form-control">{{ old('address') }}</textarea>
+                                    @error('address')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+
                                 <div class="form-group text-center">
                                     <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
                                         Register
                                     </button>
-                                    <a href="{{ route('login.index') }}" class="btn btn-outline-secondary btn-lg btn-block" tabindex="4">
+                                    <a href="{{ route('auth.login.index') }}" class="btn btn-outline-secondary btn-lg btn-block" tabindex="4">
                                         Login
                                     </a>
                                 </div>
@@ -90,6 +102,6 @@
         </div>
     </section>
 </div>
-@include('layouts.member.script')
+@include('layouts.customer.script')
 </body>
 </html>

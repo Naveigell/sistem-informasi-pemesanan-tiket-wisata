@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Foundations\BaseRequest;
 
-class RegisterRequest extends FormRequest
+class RegisterRequest extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,9 +15,10 @@ class RegisterRequest extends FormRequest
     {
         return [
             "name"     => "required|string|min:5|max:255",
-            "username" => "required|string|min:5|max:255|unique:users",
             "email"    => "required|email|string|min:5|max:255|unique:users",
             "password" => "required|string|min:5|max:255|unique:users",
+            "phone"    => "required|string|min:5|max:255|unique:customers",
+            "address"  => "required|string|min:5|max:255",
         ];
     }
 }
