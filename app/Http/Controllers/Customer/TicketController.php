@@ -89,7 +89,11 @@ class TicketController extends Controller
             dd($e->getMessage());
         }
 
-        return redirect(route('tickets.index'))->with('success', 'Berhasil memesan tiket, mohon untuk mengecek email anda untuk melanjutkan pembayaran');
+        if (!optional(auth()->user())->isCustomer()) {
+            return redirect(route('tickets.index'))->with('success', 'Berhasil memesan tiket, mohon untuk mengecek email anda untuk melanjutkan pembayaran');
+        }
+
+        return redirect(route('tickets.index'))->with('success', 'Berhasil memesan tiket, mohon untuk melihat dashboard untuk melanjutkan pemesanan');
     }
 
     /**

@@ -57,10 +57,27 @@
                                 <td><input type="file" class="form-control" name="payment" accept="image/*"></td>
                             </tr>
                         </table>
-                        <p>
+                        <p class="mb-3">
                             <small class="text text-muted">* Catatan : Mohon diingat jika pembayaran tidak valid, maka
                                 anda akan menerima email kembali.</small>
                         </p>
+
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="text text-muted text-small" style="font-size: 16px;">
+                                            <span>Mohon untuk mengirim pembayaran melalui rekening berikut</span>
+                                            <ul>
+                                                @foreach(config('information.account_numbers') as $account)
+                                                    <li>{{ $account['account'] }} &nbsp;&nbsp;&nbsp;[{{ $account['name'] }}] - ({{ $account['bank'] }})</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <button class="btn btn-primary">Upload</button>
                     </div>

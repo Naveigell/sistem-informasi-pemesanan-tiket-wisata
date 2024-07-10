@@ -53,6 +53,20 @@
                                 <td>:</td>
                                 <td><input type="file" class="form-control" name="payment" accept="image/*"></td>
                             </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div class="text text-muted text-small" style="font-size: 16px;">
+                                        <span>Mohon untuk mengirim pembayaran melalui rekening berikut</span>
+                                        <ul>
+                                            @foreach(config('information.account_numbers') as $account)
+                                                <li>{{ $account['account'] }} &nbsp;&nbsp;&nbsp;[{{ $account['name'] }}] - ({{ $account['bank'] }})</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
                         </table>
 
                         <button class="btn btn-primary">Upload</button>
