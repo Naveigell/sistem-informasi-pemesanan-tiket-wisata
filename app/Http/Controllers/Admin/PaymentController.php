@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\TransactionStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PaymentRequest;
 use App\Jobs\SendGuestFailedPaymentJob;
@@ -9,6 +10,7 @@ use App\Jobs\SendGuestSuccessPaymentJob;
 use App\Models\Payment;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -59,7 +61,14 @@ class PaymentController extends Controller
     {
         abort_if($transaction->id != $payment->transaction_id, 404);
 
-        $payment->update($request->validated());
+        DB::transaction(function () use ($request, $transaction, $payment) {
+            $payment->update($request->validated());
+
+            // if payment is valid, we update transaction status to success
+            if ($payment->payment_status->isValid()) {
+                $transaction->update(['transaction_status' => TransactionStatusEnum::SUCCESS->value]);
+            }
+        });
 
         // if transaction is not belongs to any customer, we send email
         // if it's for logged user (customer)
