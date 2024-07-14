@@ -34,10 +34,6 @@
             </div>
             <hr>
             <div class="form-group">
-                <label>Kode Tiket</label>
-                <input type="text" disabled value="{{ $model->transaction_code }}" class="form-control">
-            </div>
-            <div class="form-group">
                 <label>Nama Customer</label>
                 <input type="text" disabled value="{{ $model->customer_name }}" class="form-control">
             </div>

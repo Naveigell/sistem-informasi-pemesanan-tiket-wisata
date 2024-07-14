@@ -21,9 +21,6 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <label>Kode Tiket</label>
-                        <input type="text" disabled class="form-control" value="{{ @$transaction ? $transaction->transaction_code : '' }}">
-                    </div>
                     <div class="form-group">
                         <label>Nik Customer</label>
                         <input type="text" disabled class="form-control" value="{{ @$transaction ? $transaction->identity_number : '' }}">
@@ -60,10 +57,6 @@
                         <span>{!! $ticket->status->toHtmlBadge() !!}</span>
                     </div>
                     <div class="card-body">
-                        <div class="form-group">
-                            <label>Kode Tiket</label>
-                            <input type="text" disabled class="form-control" value="{{ $ticket->ticket_code }}">
-                        </div>
                         <div class="form-group">
                             <label>Nama Tiket</label>
                             <input type="text" disabled class="form-control" value="{{ $ticket->name }}">

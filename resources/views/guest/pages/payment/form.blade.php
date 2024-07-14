@@ -47,9 +47,13 @@
                                 <td>{{ $transaction->number_of_tickets }}</td>
                             </tr>
                             <tr>
-                                <td>List Tiket</td>
+                                <td>Total Harga</td>
                                 <td>:</td>
-                                <td>{{ $transaction->transactionTickets->map(fn($ticket) => $ticket->name . ' (x' . $ticket->quantity . ')')->join(', ') }}</td>
+                                <td>
+                                    {{ format_price($transaction->transactionTickets->sum(fn($ticket) => $ticket->price * $ticket->quantity)) }}
+                                    &nbsp;
+                                    <button data-toggle="modal" data-target="#modal-ticket" type="button" class="btn btn-primary btn-sm">Lihat Tiket</button>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Upload Bukti Pembayaran</td>
@@ -85,4 +89,35 @@
             </form>
         </div>
     </div>
+    <x-modal.base id="modal-ticket" title="List Tiket">
+        <x-slot:body>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Tiket</th>
+                        <th>Harga</th>
+                        <th>Jumlah</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($transaction->transactionTickets as $ticket)
+                        <tr>
+                            <td>{{ $ticket->name }}</td>
+                            <td>{{ format_price($ticket->price) }}</td>
+                            <td>x{{ $ticket->quantity }}</td>
+                            <td>{{ format_price($ticket->price * $ticket->quantity) }}</td>
+                        </tr>
+                    @endforeach
+                    <tr>
+                        <td colspan="3">Total Harga</td>
+                        <td>{{ format_price($transaction->transactionTickets->sum(fn($ticket) => $ticket->price * $ticket->quantity)) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </x-slot:body>
+        <x-slot:customModalFooter>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        </x-slot:customModalFooter>
+    </x-modal.base>
 @endsection
