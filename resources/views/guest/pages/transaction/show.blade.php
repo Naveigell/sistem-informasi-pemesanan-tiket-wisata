@@ -49,35 +49,37 @@
                 </div>
             </div>
         </div>
-        @foreach($transaction->transactionTickets as $ticket)
-            <div class="col-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Tiket - {{ $loop->iteration }}</h4>
-                        <span>{!! $ticket->status->toHtmlBadge() !!}</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label>Nama Tiket</label>
-                            <input type="text" disabled class="form-control" value="{{ $ticket->name }}">
+        <div class="row mt-4">
+            @foreach($transaction->transactionTickets as $ticket)
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Tiket - {{ $loop->iteration }}</h4>
+                            <span>{!! $ticket->status->toHtmlBadge() !!}</span>
                         </div>
-                        <div class="form-group">
-                            <label>Harga Tiket</label>
-                            <input type="text" disabled class="form-control" value="{{ format_price($ticket->price) }}">
-                        </div>
-                        <div class="form-group">
-                            <label>Qr Code</label>
-                            <div>
-                                <a href="{{ $ticket->qr_code_image_url }}" class="image-zoom">
-                                    <img src="{{ $ticket->qr_code_image_url }}" alt="" style="width: 250px; height: 250px;">
-                                </a>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Nama Tiket</label>
+                                <input type="text" disabled class="form-control" value="{{ $ticket->name }}">
                             </div>
-                            <small class="text text-muted mt-2 d-block">* Klik untuk memperbesar</small>
+                            <div class="form-group">
+                                <label>Harga Tiket</label>
+                                <input type="text" disabled class="form-control" value="{{ format_price($ticket->price) }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Qr Code</label>
+                                <div>
+                                    <a href="{{ $ticket->qr_code_image_url }}" class="image-zoom">
+                                        <img src="{{ $ticket->qr_code_image_url }}" alt="" style="width: 250px; height: 250px;">
+                                    </a>
+                                </div>
+                                <small class="text text-muted mt-2 d-block">* Klik untuk memperbesar</small>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
